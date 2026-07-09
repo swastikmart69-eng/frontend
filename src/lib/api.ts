@@ -22,13 +22,13 @@ const API_CANDIDATES = (() => {
     }
   }
   // prefer localhost when running locally
-  if (typeof window === 'undefined') return ['https://backend-4ry8.onrender.com/api/sb'];
+  if (typeof window === 'undefined') return ['https://mainback-0b1m.onrender.com/api/sb'];
   const host = window.location.hostname || '';
-  if (host === 'localhost' || host.startsWith('127.')) return ['http://localhost:5000/api/sb', 'https://backend-4ry8.onrender.com/api/sb'];
+  if (host === 'localhost' || host.startsWith('127.')) return ['http://localhost:5000/api/sb', 'https://mainback-0b1m.onrender.com/api/sb'];
   // If running on Pages (swastikmart.pages.dev or any .pages.dev) always use the Render backend only
-  if (host.endsWith('.pages.dev')) return ['https://backend-4ry8.onrender.com/api/sb'];
+  if (host.endsWith('.pages.dev')) return ['https://mainback-0b1m.onrender.com/api/sb'];
   // prefer Render for other hosts, but keep localhost as fallback
-  return ['https://backend-4ry8.onrender.com/api/sb', 'http://localhost:5000/api/sb'];
+  return ['https://mainback-0b1m.onrender.com/api/sb', 'http://localhost:5000/api/sb'];
 })();
 
 // Normalize candidates (trim whitespace) to avoid malformed URLs like "%20" when envs contain spaces
