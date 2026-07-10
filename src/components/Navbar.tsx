@@ -100,7 +100,6 @@ const Navbar = () => {
             >
               <div className="mobile-menu-top">
                 <div className="mobile-brand">
-                  <BrandIcon size={26} />
                   <span className="brand-name">Swastik Mart</span>
                 </div>
                 <button className="nav-icon-btn" onClick={() => setMobileMenuOpen(false)} type="button" aria-label="Close menu">
