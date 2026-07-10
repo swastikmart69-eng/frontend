@@ -494,9 +494,9 @@
   .hide-on-mobile { display: none; }
 
   /* Product card mobile layout */
-  .product-image-wrap { height: 240px; }
+  .product-image-wrap { height: 180px; }
   .mobile-cart-badge { display: flex; }
-  .product-info { padding: 0.6rem; }
+  .product-info { padding: 0.7rem; }
   .product-name { font-size: 0.85rem; -webkit-line-clamp: 2; }
   .product-stars { display: none; }
   .product-bottom-row { border-top: none; padding-top: 0.25rem; }
@@ -531,7 +531,7 @@
 
   .top-products-grid { gap: 0.6rem; }
   .catalogue-grid { gap: 0.6rem; }
-  .product-image-wrap { height: 200px; }
+  .product-image-wrap { height: 150px; }
   .product-name { font-size: 0.78rem; }
   .product-price { font-size: 0.85rem; }
 }
