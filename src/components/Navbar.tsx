@@ -6,20 +6,6 @@ import { useCart } from '../context/CartContext';
 import SearchModal from './SearchModal';
 import './Navbar.css';
 
-const BrandIcon = ({ size = 30 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="32" height="32" rx="7" fill="url(#smGold)"/>
-    <path d="M16 5L18.9 12.1H26.5L20.3 16.6L22.6 23.5L16 19.3L9.4 23.5L11.7 16.6L5.5 12.1H13.1L16 5Z" fill="#0a0a0a"/>
-    <defs>
-      <linearGradient id="smGold" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#8B6914"/>
-        <stop offset="45%" stopColor="#F0D060"/>
-        <stop offset="100%" stopColor="#8B6914"/>
-      </linearGradient>
-    </defs>
-  </svg>
-);
-
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -72,7 +58,6 @@ const Navbar = () => {
 
         {/* ─── Center: Brand ─── */}
         <Link to="/" className="nav-brand" onClick={() => setActiveNav('home')}>
-          <BrandIcon size={30} />
           <span className="brand-name">Swastik Mart</span>
         </Link>
 
