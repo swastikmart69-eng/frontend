@@ -187,9 +187,9 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 export const formatCurrency = (amount: number) =>
-  new Intl.NumberFormat('en-BD', {
+  new Intl.NumberFormat('en-IN', {
     style: 'currency',
-    currency: 'BDT',
+    currency: 'INR',
     maximumFractionDigits: 0,
   }).format(amount);
 

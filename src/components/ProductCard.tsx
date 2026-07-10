@@ -1,6 +1,6 @@
 import type { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingBag, Star } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { formatCurrency, type Product } from '../lib/api';
 import { useCart } from '../context/CartContext';
 
@@ -52,12 +52,6 @@ export default function ProductCard({ product }: Props) {
           <span className="product-category-label">{product.category.name}</span>
         )}
         <h3 className="product-name">{product.name}</h3>
-        {/* Stars — shown on desktop */}
-        <div className="product-stars" aria-label="5 out of 5 stars">
-          {[1,2,3,4,5].map(i => (
-            <Star key={i} size={13} fill="#D4AF37" color="#D4AF37" />
-          ))}
-        </div>
         <div className="product-bottom-row">
           <span className="product-price">{formatCurrency(product.price)}</span>
           <button
