@@ -121,15 +121,15 @@ const Footer = () => {
               <ul className="footer-contact-list">
                 <li>
                   <Phone size={15} className="contact-icon" />
-                  <span>+880 1800-000000</span>
+                  <span>01330-235351</span>
                 </li>
                 <li>
                   <Mail size={15} className="contact-icon" />
-                  <span>support@swastikmart.com</span>
+                  <span>swastikmart69@gmail.com</span>
                 </li>
                 <li>
                   <MapPin size={15} className="contact-icon" />
-                  <span>House 40, Road 21, Sector 14, Uttara, Dhaka</span>
+                  <span>Chittagong</span>
                 </li>
               </ul>
             </div>

@@ -198,7 +198,7 @@ export const AdminSummary: React.FC<AdminSummaryProps> = ({ orders }) => {
                   </linearGradient>
                 </defs>
                 <XAxis dataKey="name" stroke="var(--color-text-muted)" tick={{fill: 'var(--color-text-muted)', fontSize: 12}} tickMargin={10} />
-                <YAxis stroke="var(--color-text-muted)" tick={{fill: 'var(--color-text-muted)', fontSize: 12}} tickFormatter={(value) => `₹${value}`} tickMargin={10} />
+                <YAxis stroke="var(--color-text-muted)" tick={{fill: 'var(--color-text-muted)', fontSize: 12}} tickFormatter={(value) => `৳${value}`} tickMargin={10} />
                 <CartesianGrid strokeDasharray="4 4" stroke="rgba(255,255,255,0.06)" vertical={false} />
                 <Tooltip
                    contentStyle={{ backgroundColor: 'rgba(20,3,5,0.9)', backdropFilter: 'blur(10px)', borderColor: 'var(--color-border)', borderRadius: '8px', color: 'var(--color-text)', boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }}
