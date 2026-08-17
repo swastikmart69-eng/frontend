@@ -58,6 +58,8 @@ const AdminDashboard = () => {
 
   const [categoryName, setCategoryName] = useState('');
   const [categoryImage, setCategoryImage] = useState<File | null>(null);
+  const [editingCategoryId, setEditingCategoryId] = useState<string | null>(null);
+  const [existingCategoryImageUrl, setExistingCategoryImageUrl] = useState<string | null>(null);
 
   const [productForm, setProductForm] = useState({
     name: '',
@@ -110,7 +112,7 @@ const AdminDashboard = () => {
     setError('');
     try {
       // If an image file is selected, upload directly to Supabase Storage
-      let imageUrl: string | null = null;
+      let imageUrl: string | null = existingCategoryImageUrl;
       if (categoryImage) {
         const file = categoryImage;
         const ext = file.name.split('.').pop();
@@ -124,14 +126,29 @@ const AdminDashboard = () => {
         imageUrl = publicData.publicUrl;
       }
 
-      await api.createCategory({ name: categoryName, image_url: imageUrl });
+      if (editingCategoryId) {
+        await api.updateCategory(editingCategoryId, { name: categoryName, image_url: imageUrl });
+        flashMessage('Category updated');
+      } else {
+        await api.createCategory({ name: categoryName, image_url: imageUrl });
+        flashMessage('Category saved');
+      }
       setCategoryName('');
       setCategoryImage(null);
-      flashMessage('Category saved');
+      setEditingCategoryId(null);
+      setExistingCategoryImageUrl(null);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not save category');
     }
+  };
+
+  const startEditCategory = (category: Category) => {
+    setEditingCategoryId(category.id);
+    setCategoryName(category.name);
+    setExistingCategoryImageUrl(category.imageUrl ?? null);
+    setCategoryImage(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleCreateProduct = async (event: FormEvent) => {
@@ -548,8 +565,14 @@ const AdminDashboard = () => {
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Main Image</label>
-                  <input type="file" accept="image/*" onChange={(e) => setMainImage(e.target.files?.[0] ?? null)} required />
+                  <label>Main Image{editingProductId && existingMainImageUrl && <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginLeft: 8 }}>(leave blank to keep current)</span>}</label>
+                  {editingProductId && existingMainImageUrl && (
+                    <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <img src={existingMainImageUrl} alt="Current" style={{ width: 56, height: 56, objectFit: 'cover', borderRadius: 6, border: '2px solid var(--color-border)' }} />
+                      <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Current image</span>
+                    </div>
+                  )}
+                  <input type="file" accept="image/*" onChange={(e) => setMainImage(e.target.files?.[0] ?? null)} required={!editingProductId} />
                 </div>
                 <div className="form-group">
                   <label>Secondary Images</label>
@@ -724,17 +747,29 @@ const AdminDashboard = () => {
         {!isLoading && activeTab === 'categories' && (
           <>
             <form className="admin-form" onSubmit={handleCreateCategory}>
+              {editingCategoryId && (
+                <div style={{ marginBottom: '0.75rem', padding: '0.5rem 0.75rem', background: 'rgba(99,102,241,0.12)', borderRadius: 8, fontSize: '0.875rem', color: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span>✏️ Editing category</span>
+                  <button type="button" className="action-btn" style={{ fontSize: '0.75rem', padding: '2px 10px' }} onClick={() => { setEditingCategoryId(null); setCategoryName(''); setCategoryImage(null); setExistingCategoryImageUrl(null); }}>Cancel</button>
+                </div>
+              )}
               <div className="form-row">
                 <div className="form-group">
                   <label>Category Name</label>
                   <input value={categoryName} onChange={(e) => setCategoryName(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                  <label>Category Image</label>
+                  <label>Category Image{editingCategoryId && existingCategoryImageUrl && <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginLeft: 8 }}>(leave blank to keep current)</span>}</label>
+                  {editingCategoryId && existingCategoryImageUrl && (
+                    <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <img src={existingCategoryImageUrl} alt="Current" style={{ width: 56, height: 56, objectFit: 'cover', borderRadius: 6, border: '2px solid var(--color-border)' }} />
+                      <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Current image</span>
+                    </div>
+                  )}
                   <input type="file" accept="image/*" onChange={(e) => setCategoryImage(e.target.files?.[0] ?? null)} />
                 </div>
               </div>
-              <button type="submit" className="btn-primary">Save Category</button>
+              <button type="submit" className="btn-primary">{editingCategoryId ? 'Update Category' : 'Save Category'}</button>
             </form>
 
             <div className="admin-table-container">
@@ -753,7 +788,10 @@ const AdminDashboard = () => {
                       <td>{category.imageUrl ? <img src={category.imageUrl} alt={category.name} className="admin-thumb" /> : 'No image'}</td>
                       <td>{category.name}</td>
                       <td>{category._count?.products ?? 0}</td>
-                      <td><button className="action-btn danger" onClick={() => deleteCategory(category.id)} type="button">Delete</button></td>
+                      <td style={{ display: 'flex', gap: 8 }}>
+                        <button className="action-btn" onClick={() => startEditCategory(category)} type="button">Edit</button>
+                        <button className="action-btn danger" onClick={() => deleteCategory(category.id)} type="button">Delete</button>
+                      </td>
                     </tr>
                   ))}
                   {categories.length === 0 && (

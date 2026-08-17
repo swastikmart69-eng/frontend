@@ -207,6 +207,8 @@ export const api = {
   createCategory: (payload: { name: string; image_url?: string | null }) =>
     request<any>('/categories', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }),
   deleteCategory: (id: string) => request<{ success: true }>(`/categories/${id}`, { method: 'DELETE' }),
+  updateCategory: (id: string, payload: { name: string; image_url?: string | null }) =>
+    request<any>(`/categories/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }),
 
   getProducts: async (params?: { isSignature?: boolean; categoryId?: string }) => {
     const search = new URLSearchParams();
